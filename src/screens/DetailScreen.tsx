@@ -7,8 +7,12 @@ import {
   Dimensions,
   Text,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import {RootStackParams} from '../navigation/Navigation';
+
+import {useMovieDetails} from '../hooks/useMovieDetails';
+import {MovieDetails} from '../components/MovieDetails';
 
 interface Props extends StackScreenProps<RootStackParams, 'DetailScreen'> {}
 
@@ -20,6 +24,8 @@ export const DetailScreen = ({route}: Props) => {
 
   console.log(movie);
 
+  const {isLoading, movieFull, cast} = useMovieDetails(movie.id);
+
   return (
     <ScrollView>
       <View style={styles.ImageContainer}>
@@ -29,6 +35,11 @@ export const DetailScreen = ({route}: Props) => {
         <Text style={styles.subTitle}>{movie.original_title} </Text>
         <Text style={styles.Title}>{movie.title} </Text>
       </View>
+      {isLoading ? (
+        <ActivityIndicator size={50} color="gray" style={{marginTop: 8}} />
+      ) : (
+        <MovieDetails movieFull={movieFull!} cast={cast} />
+      )}
     </ScrollView>
   );
 };
