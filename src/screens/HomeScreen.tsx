@@ -6,7 +6,6 @@ import {MoviePoster} from '../components/MoviePoster';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {HorizontalSlider} from '../components/HorizontalSlider';
 import {GradientBackground} from '../components/GradientBackground';
-import {getImageColors} from '../helpers/getColores';
 
 const {width: windowWidth} = Dimensions.get('window');
 
@@ -17,8 +16,6 @@ export const HomeScreen = () => {
   const getPosterColors = async (index: number) => {
     const movie = nowPlaying[index];
     const uri = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-    const [Primary, Secondary] = await getImageColors(uri);
-    console.log({Primary, Secondary});
   };
 
   if (isLoading) {
@@ -40,6 +37,7 @@ export const HomeScreen = () => {
               itemWidth={300}
               inactiveSlideOpacity={0.9}
               sliderWidth={windowWidth}
+              onSnapToItem={index => getPosterColors(index)}
             />
           </View>
 
